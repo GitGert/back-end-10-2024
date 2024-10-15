@@ -1,10 +1,12 @@
-package ee.gert.veebipood;
+package ee.gert.veebipood.controller;
 
+import ee.gert.veebipood.entity.Nutrients;
+import ee.gert.veebipood.repository.NutrientsRepository;
+import ee.gert.veebipood.repository.ProdcutRepository;
+import ee.gert.veebipood.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -19,6 +21,8 @@ public class ProductController {
 
     @Autowired
     ProdcutRepository prodcutRepository;
+    @Autowired
+    private NutrientsRepository nutrientsRepository;
 
 
     @GetMapping("/products")
@@ -40,6 +44,20 @@ public class ProductController {
         prodcutRepository.deleteById(id);
         return prodcutRepository.findAll();
     }
+
+    //    http://localhost:8080/add-product?name=
+    @PostMapping("/product")
+    public List<Product> saveProduct(@RequestBody Product product){
+        Nutrients nutrients = nutrientsRepository.save(product.getNutrients());
+        product.setNutrients(nutrients);
+        prodcutRepository.save(product);
+        return prodcutRepository.findAll();
+    }
+
+
+
+
+
 
 
 //    @GetMapping("/test")

@@ -1,29 +1,27 @@
-package ee.gert.veebipood;
-// jakarta is hibernate
+package ee.gert.veebipood.entity;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Product {
+public class Nutrients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    double price;
-    String image;
-    boolean active;
-    String description;
+    private Long id;
+    private int protein;
+    private int carbohydrate;
+    private  int fat;
 
-    public Product(String name) {
-        this.name = name;
-    }
 
 }
