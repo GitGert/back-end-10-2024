@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity // Entity is connected with JPA meaning each
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

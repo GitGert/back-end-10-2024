@@ -1,6 +1,5 @@
 package ee.gert.veebipood.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,16 +9,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Nutrients {
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int protein;
-    private int carbohydrate;
-    private  int fat;
+
+    private String country;
+    private String county;
+    private String city;
+    private String street;
+    private String streetNumber;
+    private String apartmentNumber;
 }
