@@ -22,8 +22,11 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
-    @Autowired
 
+    @GetMapping("/product")
+    public Product getProduct(@RequestParam Long id){
+        return productRepository.findById(id).orElseThrow(); // .get() ja .orElseThrow() on samad
+    }
 
     @GetMapping("/all-products")
     public List<Product> getAllProducts(){
