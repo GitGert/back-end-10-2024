@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Product {
 //            @JoinColumn(name = "category_id")
 //    Category category;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Nutrients nutrients;
 
     public Product(String name) {

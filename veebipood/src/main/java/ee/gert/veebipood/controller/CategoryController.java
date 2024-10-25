@@ -3,9 +3,10 @@ package ee.gert.veebipood.controller;
 import ee.gert.veebipood.entity.Category;
 import ee.gert.veebipood.entity.Product;
 import ee.gert.veebipood.repository.CategoryRepository;
-import ee.gert.veebipood.repository.ProdcutRepository;
+import ee.gert.veebipood.repository.ProductRepository;
 import ee.gert.veebipood.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class CategoryController {
     CategoryRepository categoryRepository;
 
     @Autowired
-    private ProdcutRepository prodcutRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     CategoryService categoryService;
@@ -28,27 +29,27 @@ public class CategoryController {
 //    private ProductRepository productRepository;
 
     @GetMapping("category")
-    public List<Category> getCategories(){
-        return categoryRepository.findAll();
+    public ResponseEntity<List<Category>> getCategories(){
+        return ResponseEntity.ok().body(categoryRepository.findAll());
     }
 
     @PostMapping("category")
-    public List<Category> addCategory(@RequestBody Category category){
+    public ResponseEntity<List<Category>> addCategory(@RequestBody Category category){
         categoryRepository.save(category);
-        return categoryRepository.findAll();
+        return ResponseEntity.status(201).body(categoryRepository.findAll());
     }
 
     @GetMapping("category-products/{categoryId}")
-    public List<Product> getCategoryProducts(@PathVariable Long categoryId){
-        return prodcutRepository.findByCategory_Id(categoryId);
+    public ResponseEntity<List<Product>>  getCategoryProducts(@PathVariable Long categoryId){
+        return ResponseEntity.ok().body(productRepository.findByCategory_Id(categoryId));
     }
 
 
     
     @GetMapping("protein-category-products/{categoryId}")
-    public int getProteinCategoryProducts(@PathVariable Long categoryId){
-        List<Product> products = prodcutRepository.findByCategory_Id(categoryId);
-        return categoryService.getProductListProteinCount(products);
+    public ResponseEntity<Integer> getProteinCategoryProducts(@PathVariable Long categoryId){
+        List<Product> products = productRepository.findByCategory_Id(categoryId);
+        return ResponseEntity.ok().body(categoryService.getProductListProteinCount(products));
     }
 
 

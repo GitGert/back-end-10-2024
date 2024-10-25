@@ -1,15 +1,16 @@
 package ee.gert.veebipood.controller;
 
-import ee.gert.veebipood.entity.Nutrients;
-import ee.gert.veebipood.repository.NutrientsRepository;
-import ee.gert.veebipood.repository.ProdcutRepository;
 import ee.gert.veebipood.entity.Product;
+import ee.gert.veebipood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController // annotation @ -> sellega votab controller  api requeste vastu
 public class ProductController {
 
@@ -20,38 +21,41 @@ public class ProductController {
 
 
     @Autowired
-    ProdcutRepository prodcutRepository;
+    ProductRepository productRepository;
     @Autowired
-    private NutrientsRepository nutrientsRepository;
 
+
+    @GetMapping("/all-products")
+    public List<Product> getAllProducts(){
+        return productRepository.findAll();
+    }
 
     @GetMapping("/products")
-    public List<Product> getProducts(){
-        return prodcutRepository.findAll();
+    public Page<Product> getProducts(Pageable pageable){
+        return productRepository.findAll(pageable);
     }
 
 //    http://localhost:8080/add-product?name=
     @GetMapping("/add-product")
     public List<Product> addProducts(@RequestParam String name){
-            prodcutRepository.save(new Product(name));
-        return prodcutRepository.findAll();
+            productRepository.save(new Product(name));
+        return productRepository.findAll();
     }
 
 //    http://localhost:8080/add-product?name=coca?category=soft-drinks   <--- järjekord ei ole tähtis
 //    http://localhost:8080/delete-product/Coca <- järjekord on tähtis!
     @GetMapping("/delete-product/{id}")
     public List<Product> deleteProduct(@PathVariable Long id){
-        prodcutRepository.deleteById(id);
-        return prodcutRepository.findAll();
+        productRepository.deleteById(id);
+        return productRepository.findAll();
     }
 
     //    http://localhost:8080/add-product?name=
     @PostMapping("/product")
     public List<Product> saveProduct(@RequestBody Product product){
-        Nutrients nutrients = nutrientsRepository.save(product.getNutrients());
-        product.setNutrients(nutrients);
-        prodcutRepository.save(product);
-        return prodcutRepository.findAll();
+
+        productRepository.save(product);
+        return productRepository.findAll();
     }
 
 

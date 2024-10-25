@@ -15,14 +15,17 @@ public class OrderService {
 
     @Autowired
     OrderRepository orderRepository;
-    private final ProductRepository productRepository;
 
 
-    public OrderService(OrderRepository orderRepository,
-                        ProductRepository productRepository) {
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-    }
+    @Autowired
+    ProductRepository productRepository;
+
+
+//    public OrderService(OrderRepository orderRepository,
+//                        ProductRepository productRepository) {
+//        this.orderRepository = orderRepository;
+//        this.productRepository = productRepository;
+//    }
 
     public void saveOrder(Order order){
         order.setCreation(new Date());
