@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomepageComponent } from './homepage.component';
+import { FormsModule } from '@angular/forms';
 
 describe('HomepageComponent', () => {
   let component: HomepageComponent;

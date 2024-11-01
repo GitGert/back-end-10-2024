@@ -2,15 +2,18 @@ package ee.gert.veebipood.controller;
 
 import ee.gert.veebipood.entity.Product;
 import ee.gert.veebipood.repository.ProductRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3000")
+@Log4j2
 @RestController // annotation @ -> sellega votab controller  api requeste vastu
 public class ProductController {
 
@@ -30,6 +33,9 @@ public class ProductController {
 
     @GetMapping("/all-products")
     public List<Product> getAllProducts(){
+        log.info(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+        log.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return productRepository.findAll();
     }
 
@@ -61,7 +67,10 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-
+    @GetMapping("/find-by-name")
+    public Page<Product> getProductsByName(@RequestParam String name, Pageable pageable){
+        return productRepository.findByNameContainsIgnoreCase(name, pageable);
+    }
 
 
 

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { OrderRow } from '../Models/OrderRow';
-import { JsonPipe } from '@angular/common';
-import { Product } from '../Models/Product';
 import { FormsModule, NgModel } from '@angular/forms';
 import { OrderService } from '../services/order.service';
 import { Order } from '../Models/Order';

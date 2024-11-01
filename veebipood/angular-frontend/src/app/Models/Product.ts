@@ -1,12 +1,14 @@
 import { Nutrients } from "./Nutrients"
 
-export interface Product{
-    id : number
-    name : string
-    price : number
-    image : string
-    active : boolean
-    description : string
-    nutrients : Nutrients
-    category : {}
+export class Product{
+    constructor(
+        public id : number,
+        public name : string,
+        public price : number,
+        public image : string,
+        public active : boolean,
+        public description : string,
+        public nutrients : Nutrients,
+        public category : {}
+    ){}
 }

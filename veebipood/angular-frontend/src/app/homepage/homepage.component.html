@@ -1,7 +1,15 @@
-@for (product of products; track product) {
+
+<label for="">search</label>
+<input [(ngModel)]="search" (ngModelChange)="searchFormProducts()" type="text">
+<div>{{totalElements}}</div>
+
+
+@for (product of products; track product.id) {
     <div>{{product.name}}</div>
     <div>{{product.price}}</div>
     <button (click)="addToCart(product)">Lisa ostukorvi</button>
     <!-- <button routerLink="product/{{product.id}}" >vaata detalisemalt</button> -->
     <button [routerLink]="['product', product.id]" >vaata detalisemalt</button>
 }
+
+<button [disabled]="page < 1" (click)="previousPage()" ><</button> <span> {{page}}</span> <button [disabled]="page+1 === totalPages" (click)="nextPage()">></button>

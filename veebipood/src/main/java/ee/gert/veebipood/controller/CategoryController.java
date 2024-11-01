@@ -44,7 +44,6 @@ public class CategoryController {
         return ResponseEntity.ok().body(productRepository.findByCategory_Id(categoryId));
     }
 
-
     
     @GetMapping("protein-category-products/{categoryId}")
     public ResponseEntity<Integer> getProteinCategoryProducts(@PathVariable Long categoryId){
