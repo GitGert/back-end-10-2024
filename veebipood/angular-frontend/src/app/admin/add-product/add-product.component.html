@@ -1,0 +1,29 @@
+<p>add-product works!</p>
+
+<form #addProductForm="ngForm" (submit)="addProduct(addProductForm)">
+
+    <label for="">ID</label> <br>
+    <input ngModel name="id" type="text"> <br>
+    <label for="">Name</label> <br>
+    <input ngModel name="name" > <br>
+    <label for="">Price</label> <br>
+    <input ngModel name="price" > <br>
+    <label for="">Image</label> <br>
+    <input ngModel name="image" > <br>
+    <label for="">Active</label> <br>
+    <input ngModel name="active" type="checkbox" > <br>
+    <label for="">Description</label> <br>
+    <input ngModel name="description" > <br>
+    <label for="">Protein</label> <br>
+    <input ngModel name="protein" > <br>
+    <label for="">Carbohydrate</label> <br>
+    <input ngModel name="carbohydrate" > <br>
+    <label for="">Fat</label> <br>
+    <input ngModel name="fat" > <br>
+    <label for="">Category</label> <br> 
+    <!-- category should maybe be a dropdown of all exsiting categories unless this will create a new category as well -->
+    <input ngModel name="category" > <br>
+    <br>
+    <button>Add</button>
+
+</form>

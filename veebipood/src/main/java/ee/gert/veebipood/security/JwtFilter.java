@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
         // Get token
         if (token != null && token.startsWith("Bearer ")){
             token = token.replace("Bearer ", "");
+            System.out.println("got Token");
             System.out.println(token);
 //
 //             Jwts.parser().unsecuredDecompression();
@@ -73,11 +75,20 @@ public class JwtFilter extends BasicAuthenticationFilter {
             System.out.println(claims.get("lastName"));
             System.out.println(claims.get("email"));
 
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            //TODO: read the data and create a authentication instance with it
 
+
+            //TODO: read the data and create a authentication instance with it
+            boolean admin = claims.get("admin").equals("true");
             String email = claims.get("email").toString();
             String credentials = claims.get("firstName") + " " + claims.get("lastName");
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            if (admin){
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("admin");
+                authorities.add(grantedAuthority);
+            }
+
+
                                                                             // tokeni seest email                    ja credentials
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, credentials, authorities ); //FL -FirstLast
             // the authentication will be passed to the Securitycontextholder

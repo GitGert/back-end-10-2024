@@ -28,12 +28,12 @@ public class CategoryController {
 //    @Autowired
 //    private ProductRepository productRepository;
 
-    @GetMapping("category")
+    @GetMapping("categories")
     public ResponseEntity<List<Category>> getCategories(){
         return ResponseEntity.ok().body(categoryRepository.findAll());
     }
 
-    @PostMapping("category")
+    @PostMapping("categories")
     public ResponseEntity<List<Category>> addCategory(@RequestBody Category category){
         categoryRepository.save(category);
         return ResponseEntity.status(201).body(categoryRepository.findAll());

@@ -1,5 +1,6 @@
 package ee.gert.veebipood.controller;
 
+import ee.gert.veebipood.config.SecurityConfig;
 import ee.gert.veebipood.entity.Person;
 import ee.gert.veebipood.model.EmailPassword;
 import ee.gert.veebipood.model.Token;
@@ -7,10 +8,16 @@ import ee.gert.veebipood.repository.PersonRepository;
 import ee.gert.veebipood.service.AuthService;
 import ee.gert.veebipood.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class AuthController {
@@ -28,12 +35,14 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("signup")
-    public String signup(@RequestBody Person person){
+    public Token signup(@RequestBody Person person){
         String encryptedPassword = encoder.encode(person.getPassword());
         person.setPassword(encryptedPassword);
-        personService.savePerson(person);
-        return "signup security token";
+        Person dbPerson = personService.savePerson(person);
+        return authService.getToken(dbPerson);
     }
+
+
     @PostMapping("login")
     public Token login(@RequestBody EmailPassword emailPassword){
 
@@ -42,7 +51,16 @@ public class AuthController {
         if (encoder.matches(emailPassword.getPassword(), person.getPassword())){
             return authService.getToken(person);
         }
-        //FIXME: if we dont get token send a poor request response.
+
+        //FIXME: if we don't get token send a poor request response.
+
         return new Token();
+    }
+
+    @GetMapping("admin")
+    public boolean isAdmin(){
+        GrantedAuthority authority = new SimpleGrantedAuthority("admin");
+
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority);
     }
 }

@@ -26,41 +26,38 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    @GetMapping("/products")
+    public List<Product> getAllProducts(){
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/public-products")
+    public Page<Product> getProducts(Pageable pageable){
+        return productRepository.findAll(pageable);
+    }
+
     @GetMapping("/product")
     public Product getProduct(@RequestParam Long id){
         return productRepository.findById(id).orElseThrow(); // .get() ja .orElseThrow() on samad
     }
 
-    @GetMapping("/all-products")
-    public List<Product> getAllProducts(){
-        log.info(SecurityContextHolder.getContext().getAuthentication().getCredentials());
-        log.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        return productRepository.findAll();
-    }
-
-    @GetMapping("/products")
-    public Page<Product> getProducts(Pageable pageable){
-        return productRepository.findAll(pageable);
-    }
-
 //    http://localhost:8080/add-product?name=
-    @GetMapping("/add-product")
-    public List<Product> addProducts(@RequestParam String name){
-            productRepository.save(new Product(name));
-        return productRepository.findAll();
-    }
+//    @GetMapping("/add-product")
+//    public List<Product> addProducts(@RequestParam String name){
+//            productRepository.save(new Product(name));
+//        return productRepository.findAll();
+//    }
 
 //    http://localhost:8080/add-product?name=coca?category=soft-drinks   <--- järjekord ei ole tähtis
 //    http://localhost:8080/delete-product/Coca <- järjekord on tähtis!
-    @GetMapping("/delete-product/{id}")
+    @DeleteMapping("/delete-product/{id}")
     public List<Product> deleteProduct(@PathVariable Long id){
         productRepository.deleteById(id);
         return productRepository.findAll();
     }
 
     //    http://localhost:8080/add-product?name=
-    @PostMapping("/product")
+    @PostMapping("/products")
     public List<Product> saveProduct(@RequestBody Product product){
 
         productRepository.save(product);

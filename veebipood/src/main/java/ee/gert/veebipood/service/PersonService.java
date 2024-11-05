@@ -24,8 +24,8 @@ public class PersonService {
 
 
     //@Transactional // kui yks päring falib revertitakse kõik teised
-    public void savePerson(@RequestBody Person person){
-        personRepository.save(person);
+    public Person savePerson(@RequestBody Person person){
+        return personRepository.save(person);
     }
 
 
