@@ -1,7 +1,9 @@
 package ee.gert.veebipood.controller;
 
 import ee.gert.veebipood.entity.Product;
+import ee.gert.veebipood.exception.ValidationException;
 import ee.gert.veebipood.repository.ProductRepository;
+import ee.gert.veebipood.service.ProductService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.domain.Pageable;
@@ -26,6 +28,9 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductService productService;
+
     @GetMapping("/products")
     public List<Product> getAllProducts(){
         return productRepository.findAll();
@@ -38,7 +43,7 @@ public class ProductController {
 
     @GetMapping("/product")
     public Product getProduct(@RequestParam Long id){
-        return productRepository.findById(id).orElseThrow(); // .get() ja .orElseThrow() on samad
+        return productRepository.findById(id).orElse(null); // .get() ja .orElseThrow() on samad
     }
 
 //    http://localhost:8080/add-product?name=
@@ -58,8 +63,8 @@ public class ProductController {
 
     //    http://localhost:8080/add-product?name=
     @PostMapping("/products")
-    public List<Product> saveProduct(@RequestBody Product product){
-
+    public List<Product> saveProduct(@RequestBody Product product) throws ValidationException {
+        productService.validateProduct(product);
         productRepository.save(product);
         return productRepository.findAll();
     }
@@ -68,8 +73,6 @@ public class ProductController {
     public Page<Product> getProductsByName(@RequestParam String name, Pageable pageable){
         return productRepository.findByNameContainsIgnoreCase(name, pageable);
     }
-
-
 
 
 

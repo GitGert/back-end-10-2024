@@ -1,6 +1,7 @@
 package ee.gert.veebipood.service;
 
 import ee.gert.veebipood.entity.Person;
+import ee.gert.veebipood.exception.ValidationException;
 import ee.gert.veebipood.model.Token;
 //import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts;
@@ -14,8 +15,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ee.gert.veebipood.utils.ValidationUtil.validateEmail;
+
 @Service
 public class AuthService {
+
     public Token getToken(Person person) {
         Date experationDate = new Date(new Date().getTime() + 2* 3600*1000); // 2 * an hour in milliseconds
         Map<String, String> claims = new HashMap<>();
@@ -49,4 +53,26 @@ public class AuthService {
 
         return token;
     }
+
+    public void validate(Person person) throws ValidationException {
+        if (person.getEmail() == null || person.getEmail().isEmpty()){
+            throw new ValidationException("Email cannot be empty");
+        }
+        if (!validateEmail(person.getEmail())){
+            throw new ValidationException("Email is not correct");
+        }
+        if (person.getPassword() == null || person.getPassword().isEmpty()){
+            throw new ValidationException("Password cannot be empty");
+        }
+        if (person.getFirstName() == null || person.getFirstName().isEmpty()){
+            throw new ValidationException("First name cannot be empty");
+        }
+        if (person.getLastName() == null || person.getLastName().isEmpty()){
+            throw new ValidationException("Last name cannot be empty");
+        }
+    }
+
+
+
+
 }

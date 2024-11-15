@@ -62,6 +62,10 @@ export class CartComponent {
       person : {email : this.email},
       orderRows : this.cart
     }
+    if (sessionStorage.getItem("token") === null){
+      return
+    }
+
     this.orderService.saveOrder(order).subscribe()
   }
 }

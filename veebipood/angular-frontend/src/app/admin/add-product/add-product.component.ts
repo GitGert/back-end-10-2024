@@ -13,6 +13,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './add-product.component.css'
 })
 export class AddProductComponent {
+  errorMessage = ""
 
   constructor(private productService : ProductService){}
   addProduct(form : NgForm){
@@ -39,7 +40,10 @@ export class AddProductComponent {
       ),
     )
 
-    this.productService.addProduct(product).subscribe();
+    this.productService.addProduct(product).subscribe(
+      ()=>{},
+      error => {this.errorMessage = error.error.name}
+    );
 
   }
 }

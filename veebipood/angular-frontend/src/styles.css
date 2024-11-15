@@ -4,3 +4,9 @@
 body{
     text-align: center;
 }
+
+.error{
+    background-color: red;
+    margin: 30px;
+    border-radius: 2px;
+}

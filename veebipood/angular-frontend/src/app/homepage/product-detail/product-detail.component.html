@@ -2,11 +2,19 @@
     <div>{{product.id}}</div>
     <div>{{product.name}}</div>
     <div>{{product.price}}</div>
-    <div>{{product.category}}</div>
+    <div>{{product.category.name}}</div>
     <div>{{product.description}}</div>
     <div>{{product.image}}</div>
     <div>{{product.active}}</div>
     <div>{{product.nutrients.protein}}</div>
     <div>{{product.nutrients.carbohydrate}}</div>
     <div>{{product.nutrients.fat}}</div>
+}
+
+@if (product === undefined) {
+    <div>Loading...</div>
+}
+
+@if (product === null) {
+    <div>Product not found</div>
 }

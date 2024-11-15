@@ -32,4 +32,9 @@ export class AuthService {
     )
   }
 
+  
+  signup(person : Person) : Observable<Token> {
+    return this.http.post<Token>("http://localhost:8080/signup", person)
+  }
+
 }

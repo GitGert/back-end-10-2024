@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import { Nutrients } from "./Nutrients"
 
 export class Product{
@@ -9,6 +10,6 @@ export class Product{
         public active : boolean,
         public description : string,
         public nutrients : Nutrients,
-        public category : {}
+        public category : Category,
     ){}
 }
