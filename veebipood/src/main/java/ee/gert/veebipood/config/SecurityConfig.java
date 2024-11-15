@@ -46,9 +46,14 @@ public class SecurityConfig {
 //                        .requestMatchers(new AntPathRequestMatcher("/all-products")).hasAuthority("admin")
                         .requestMatchers(("/public-products")).permitAll()
                         .requestMatchers(("/product")).permitAll()
+                        .requestMatchers(("/supplier")).permitAll()
+                        .requestMatchers(("/supplier-escuela")).permitAll()
+                        .requestMatchers(("/parcel-machines/**")).permitAll()
+                        .requestMatchers(("/parcel-machines")).permitAll()
                         .requestMatchers(("/find-by-name")).permitAll()
                         .requestMatchers(("/signup")).permitAll() //FIXME: signup not allowed without? without what?
                         .requestMatchers(("/login")).permitAll()
+
                         .requestMatchers(HttpMethod.GET,("/categories")).permitAll() //GET
                         .requestMatchers(HttpMethod.POST, ("/categories")).hasAuthority("admin") //POST
                         .requestMatchers(("/all-products")).hasAuthority("admin")

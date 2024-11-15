@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -13,7 +13,9 @@ export class NavbarComponent {
   showButton = false;
   loggedIn = false;
 
-  constructor(private authService : AuthService) {
+  constructor(private authService : AuthService,
+    private router : Router
+  ) {
     
   }
 
@@ -41,5 +43,6 @@ export class NavbarComponent {
     this.authService.loggedInSubject.next(false)
     this.authService.adminSubject.next(false)
     // this.showButton
+    this.router.navigateByUrl("/")
   }
 }

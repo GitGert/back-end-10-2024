@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent {
   
 
-  constructor(private authService : AuthService){}
+  constructor(private authService : AuthService
+    ,private router  : Router
+  ){}
   
   login(form :NgForm){
     const email = form.value.email
@@ -22,6 +25,7 @@ export class LoginComponent {
       sessionStorage.setItem("expiration", new Date(res.expiration).getTime().toString())
       this.authService.loggedInSubject.next(true)
       this.authService.adminSubject.next(true)
+      this.router.navigateByUrl("/")
     })
   }
 }
