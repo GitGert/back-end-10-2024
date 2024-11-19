@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@SequenceGenerator(name="seq",initialValue = 123000, allocationSize = 1)
+@SequenceGenerator(name="seq",initialValue = 560000, allocationSize = 1)
 @Table(name = "orders")
 public class Order {
     @Id
@@ -38,8 +38,12 @@ public class Order {
 
     private Date creation;
 
-    @ColumnDefault("0")
+//    @ColumnDefault("0")
     private double totalSum;
+
+//    @ColumnDefault("false")
+//    @Column(name = "paid")
+    private boolean paid;
 }
 
 // service is always connected with a specific service

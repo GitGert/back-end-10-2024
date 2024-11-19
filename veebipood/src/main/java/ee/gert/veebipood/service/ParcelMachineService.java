@@ -1,8 +1,6 @@
 package ee.gert.veebipood.service;
 
 import ee.gert.veebipood.model.ParcelMachine;
-import ee.gert.veebipood.model.SupplierProduct;
-import org.hibernate.annotations.SecondaryRow;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

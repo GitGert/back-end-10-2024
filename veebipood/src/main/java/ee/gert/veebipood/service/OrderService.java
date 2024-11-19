@@ -3,11 +3,20 @@ package ee.gert.veebipood.service;
 import ee.gert.veebipood.entity.Order;
 import ee.gert.veebipood.entity.OrderRow;
 import ee.gert.veebipood.entity.Product;
+import ee.gert.veebipood.model.payment.*;
+import ee.gert.veebipood.model.supplier.SupplierProductEscuela;
 import ee.gert.veebipood.repository.OrderRepository;
 import ee.gert.veebipood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Service
@@ -27,7 +36,7 @@ public class OrderService {
 //        this.productRepository = productRepository;
 //    }
 
-    public void saveOrder(Order order){
+    public Order saveOrder(Order order){
         order.setCreation(new Date());
         double totalSum =0;
         for(OrderRow orderRow : order.getOrderRows()){
@@ -36,5 +45,69 @@ public class OrderService {
         }
         order.setTotalSum(totalSum);
         orderRepository.save(order);
+        return order;
+    }
+
+    public PaymentLink getPaymentLink(Order order) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String url = "https://igw-demo.every-pay.com/api/v4/payments/oneoff";
+        System.out.println("orderID:");
+        System.out.println(order.getId().toString());
+
+        EveryPayBody body = new EveryPayBody();
+        body.setAccount_name("EUR3D1");
+        body.setNonce("234567defgyvbhf" + ZonedDateTime.now() + Math.random());
+        body.setTimestamp(ZonedDateTime.now().toString());
+        body.setAmount(order.getTotalSum());
+        body.setOrder_reference(order.getId().toString());
+        body.setCustomer_url("https://err.ee");
+        body.setApi_username("92ddcfab96e34a5f");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Basic OTJkZGNmYWI5NmUzNGE1Zjo4Y2QxOWU5OWU5YzJjMjA4ZWU1NjNhYmY3ZDBlNGRhZA==");
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        HttpEntity<EveryPayBody> httpEntity = new HttpEntity<>(body,headers);
+
+        ResponseEntity<EveryPayResponse> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                httpEntity, // <---requestEntity is body + headers
+                EveryPayResponse.class
+        );
+
+//        ?order_reference=152515324
+//        &payment_reference=e569ff1470d865a70dde5582027fa4f763f7cd92c53898de64fe4eb6a9436e59
+
+        PaymentLink link = new PaymentLink();
+        link.setLink(response.getBody().getPayment_link()); //FIXME: might be null
+        return link;
+    }
+
+    public PaymentStatus checkPaymentStatus(String paymentReference) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://igw-demo.every-pay.com/api/v4/payments/"
+                +paymentReference +
+                "?api_username=92ddcfab96e34a5f"+
+                "&detailed=false";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Basic OTJkZGNmYWI5NmUzNGE1Zjo4Y2QxOWU5OWU5YzJjMjA4ZWU1NjNhYmY3ZDBlNGRhZA==");
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        HttpEntity<EveryPayPaymentStatusBody> httpEntity = new HttpEntity<>(null,headers);
+
+        ResponseEntity<EveryPayPaymentStatusBody> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                httpEntity, // <---requestEntity is body + headers
+                EveryPayPaymentStatusBody.class
+        );
+
+        PaymentStatus paymentStatus = new PaymentStatus();
+        paymentStatus.setStatus(response.getBody().getPayment_state());
+        return paymentStatus;
     }
 }

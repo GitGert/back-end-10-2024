@@ -1,14 +1,13 @@
 package ee.gert.veebipood.controller;
 
 import ee.gert.veebipood.model.ParcelMachine;
-import ee.gert.veebipood.model.SupplierProduct;
-import ee.gert.veebipood.model.SupplierProductEscuela;
+import ee.gert.veebipood.model.supplier.SupplierProduct;
+import ee.gert.veebipood.model.supplier.SupplierProductEscuela;
 import ee.gert.veebipood.service.ParcelMachineService;
 import ee.gert.veebipood.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

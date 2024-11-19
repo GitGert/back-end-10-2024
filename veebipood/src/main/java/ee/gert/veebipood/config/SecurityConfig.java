@@ -59,6 +59,8 @@ public class SecurityConfig {
                         .requestMatchers(("/all-products")).hasAuthority("admin")
                         .requestMatchers(("/products/**")).hasAuthority("admin")
                         .requestMatchers(("admin")).permitAll()
+                        .requestMatchers(("check-payment")).permitAll()
+//                        .anyRequest().permitAll()
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)

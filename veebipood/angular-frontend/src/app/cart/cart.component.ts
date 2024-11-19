@@ -81,6 +81,8 @@ export class CartComponent {
       return
     }
 
-    this.orderService.saveOrder(order).subscribe()
+    this.orderService.saveOrder(order).subscribe(res => {
+      window.location.href = res.link
+    })
   }
 }

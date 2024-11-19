@@ -1,7 +1,7 @@
 package ee.gert.veebipood.service;
 
-import ee.gert.veebipood.model.SupplierProduct;
-import ee.gert.veebipood.model.SupplierProductEscuela;
+import ee.gert.veebipood.model.supplier.SupplierProduct;
+import ee.gert.veebipood.model.supplier.SupplierProductEscuela;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
