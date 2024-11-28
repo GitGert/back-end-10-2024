@@ -44,6 +44,8 @@ public class SecurityConfig {
 //                        .requestMatchers(new AntPathRequestMatcher("/products/**")).hasAuthority("admin")
 //                        .requestMatchers(new AntPathRequestMatcher("/products/**")).hasAuthority("admin")
 //                        .requestMatchers(new AntPathRequestMatcher("/all-products")).hasAuthority("admin")
+                        .requestMatchers(("/v3/api-docs/**")).permitAll()
+                        .requestMatchers(("/swagger-ui/**")).permitAll()
                         .requestMatchers(("/public-products")).permitAll()
                         .requestMatchers(("/product")).permitAll()
                         .requestMatchers(("/supplier")).permitAll()

@@ -2,6 +2,8 @@ package ee.gert.veebipood.service;
 
 import ee.gert.veebipood.model.supplier.SupplierProduct;
 import ee.gert.veebipood.model.supplier.SupplierProductEscuela;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Log4j2
 @Service
 public class SupplierService {
 
+    @Autowired
+    RestTemplate restTemplate;
+
     public List<SupplierProduct> getProducts(){
 
-        RestTemplate restTemplate =  new RestTemplate();
+//        RestTemplate restTemplate =  new RestTemplate(); // niimodi luua ei tohiks!
+        System.out.println("login välja");
+        log.info("login välja");
+        log.info(restTemplate);
 
         String url = "https://fakestoreapi.com/products";
 
@@ -34,7 +43,7 @@ public class SupplierService {
     }
 
     public List<SupplierProductEscuela> getProductsEscuela() {
-        RestTemplate restTemplate =  new RestTemplate();
+//        RestTemplate restTemplate =  new RestTemplate();
 
         String url = "https://api.escuelajs.co/api/v1/products";
 

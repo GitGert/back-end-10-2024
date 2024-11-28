@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AuthController {
@@ -48,19 +49,21 @@ public class AuthController {
         return ResponseEntity.ok().body(authService.getToken(dbPerson));
     }
 
-
     @PostMapping("login")
-    public Token login(@RequestBody EmailPassword emailPassword){
+    public Token login(@RequestBody EmailPassword emailPassword) throws ValidationException {
 
-        Person person = personRepository.findById(emailPassword.getEmail()).orElseThrow(); // orElsethrow because findbyId may be null. Alternative is to use Optional<Person> type.
+        Optional<Person> personOptional = personRepository.findById(emailPassword.getEmail()); // orElsethrow because findbyId may be null. Alternative is to use Optional<Person> type.
 
-        if (encoder.matches(emailPassword.getPassword(), person.getPassword())){
-            return authService.getToken(person);
+        if (!personOptional.isPresent()){
+            throw new ValidationException("email pole korrektne");
+        }
+        Person person =personOptional.get();
+
+        if (!encoder.matches(emailPassword.getPassword(), person.getPassword())){
+            throw new ValidationException("password on vale");
         }
 
-        //FIXME: if we don't get token send a poor request response.
-
-        return new Token();
+        return authService.getToken(person);
     }
 
     @GetMapping("admin")
