@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Product } from '../Models/Product';
 import { Productpage } from '../Models/ProductPage';
 
@@ -21,8 +21,19 @@ export class ProductService {
     return     this.http.get<Product>("http://localhost:8080/product", {params : {id : productId}})
   }
 
-  getProductByName(search : string) : Observable<Productpage> {
-    return this.http.get<Productpage>("http://localhost:8080/find-by-name", {params : {name : search}})
+  getProductByName(search : string, pageNr : number, pageSize : number) : Observable<Productpage> {
+    return this.http.get<Productpage>("http://localhost:8080/find-by-name", 
+      {params : {page : pageNr, size : pageSize}})
+    //   .pipe( //rxjs pipe, different from angular pipe |
+    //   map((res) =>{
+  
+    //     if (!res){
+    //       router.navigateByUrl("/login")
+    //     }
+        
+    //     return res
+    //   })
+    // )
   }
 
   addProduct(product : Product) : Observable<void> {

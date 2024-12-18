@@ -1,15 +1,18 @@
 
-<label for="">search</label>
-<input [(ngModel)]="search" (ngModelChange)="searchFormProducts()" type="text">
+<app-search-bar (searchFetch)="fetchProductsByName($event)"/>
 <div>{{totalElements}}</div>
 
+<input type="range"  min="2" max="20" [(ngModel)]="nameLength">
 
 @for (product of products; track product.id) {
-    <div>{{product.name}}</div>
+    <div>{{product.name | shortener:nameLength}}</div>
     <div>{{product.price}}</div>
     <button (click)="addToCart(product)">Lisa ostukorvi</button>
-    <!-- <button routerLink="product/{{product.id}}" >vaata detalisemalt</button> -->
     <button [routerLink]="['product', product.id]" >vaata detalisemalt</button>
 }
 
-<button [disabled]="page < 1" (click)="previousPage()" ><</button> <span> {{page}}</span> <button [disabled]="page+1 === totalPages" (click)="nextPage()">></button>
+@if ( totalElements !== 0){
+    <app-pagination 
+    [totalPages]="totalPages" 
+     (pageChangeFetch)="fetchProducts($event)"/>
+}

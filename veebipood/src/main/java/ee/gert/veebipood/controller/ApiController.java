@@ -1,5 +1,7 @@
 package ee.gert.veebipood.controller;
 
+import ee.gert.veebipood.model.JohnDoe;
+import ee.gert.veebipood.model.JohnDoeXML;
 import ee.gert.veebipood.model.ParcelMachine;
 import ee.gert.veebipood.model.supplier.SupplierProduct;
 import ee.gert.veebipood.model.supplier.SupplierProductEscuela;
@@ -48,4 +50,9 @@ public List<SupplierProductEscuela> getSupplierEscuela(){
 
     return supplierService.getProductsEscuela();
 }
+
+    @GetMapping("xml-data")
+    public JohnDoe getXMLData(){
+        return supplierService.getXMLData();
+    }
 }

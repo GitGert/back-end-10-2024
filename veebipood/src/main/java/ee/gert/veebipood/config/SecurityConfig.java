@@ -55,11 +55,13 @@ public class SecurityConfig {
                         .requestMatchers(("/find-by-name")).permitAll()
                         .requestMatchers(("/signup")).permitAll() //FIXME: signup not allowed without? without what?
                         .requestMatchers(("/login")).permitAll()
+                        .requestMatchers(("/xml-data")).permitAll()
 
+                        .requestMatchers(HttpMethod.PUT,("/products")).permitAll() //GET
                         .requestMatchers(HttpMethod.GET,("/categories")).permitAll() //GET
                         .requestMatchers(HttpMethod.POST, ("/categories")).hasAuthority("admin") //POST
                         .requestMatchers(("/all-products")).hasAuthority("admin")
-                        .requestMatchers(("/products/**")).hasAuthority("admin")
+//                        .requestMatchers(("/products/**")).hasAuthority("admin")
                         .requestMatchers(("admin")).permitAll()
                         .requestMatchers(("check-payment")).permitAll()
 //                        .anyRequest().permitAll()

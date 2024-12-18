@@ -3,6 +3,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Person } from '../Models/Person';
 import { Router } from '@angular/router';
+import { Token } from '../Models/Token';
+import { ErrorMessage } from '../Models/ErrorMessage';
 
 @Component({
   selector: 'app-login',
@@ -46,17 +48,37 @@ export class SignupComponent {
 
     const person : Person = new Person(email, password, firstName, LastName)
 
-    this.authService.signup(person).subscribe(res => {
-      sessionStorage.setItem("token", res.token)
-      sessionStorage.setItem("expiration", new Date(res.expiration).getTime().toString())
+  //   this.authService.signup(person).subscribe(res => {
+  //     sessionStorage.setItem("token", res.token)
+  //     sessionStorage.setItem("expiration", new Date(res.expiration).getTime().toString())
       
-      this.authService.loggedInSubject.next(true)
-      this.authService.adminSubject.next(true)
-      this.router.navigateByUrl("/")
-    },
-    error =>{
-      this.message = error.error.name
+  //     this.authService.loggedInSubject.next(true)
+  //     this.authService.adminSubject.next(true)
+  //     this.router.navigateByUrl("/")
+  //   },
+  //   error =>{
+  //     this.message = error.error.name
+  //   }
+  // )
+
+  this.authService.signup(person).subscribe({
+      next : this.handleSignup.bind(this),
+      error : this.handleError.bind(this),
     }
-  )
+)
+
+  }
+  private handleSignup(res: Token){
+    sessionStorage.setItem("token", res.token)
+    sessionStorage.setItem("expiration", new Date(res.expiration).getTime().toString())
+    
+    this.authService.loggedInSubject.next(true)
+    this.authService.adminSubject.next(true)
+    this.router.navigateByUrl("/")
+  }
+
+  private handleError(res: ErrorMessage){
+    console.log(res)
+    this.message = res.error.name
   }
 }

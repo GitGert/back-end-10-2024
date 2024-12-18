@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class OrderController {
@@ -30,7 +32,7 @@ public class OrderController {
 
     @PostMapping("order")
     @Transactional // salvestatakse ka ära tesised väärtused DB-s
-    public PaymentLink saveOrder(@RequestBody Order order){
+    public PaymentLink saveOrder(@RequestBody Order order) throws ExecutionException {
         // get the email from login token not from order that the user sends to BE.
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Person person = new Person();

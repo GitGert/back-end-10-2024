@@ -12,3 +12,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 export class AppComponent {
   title = 'angular-frontend';
 }
+
+
+//subscribe depricated
+// alakomponedid -> komponentide vaheline suhtlus.
+

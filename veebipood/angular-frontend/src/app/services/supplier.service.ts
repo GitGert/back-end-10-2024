@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SupplierService {
+  private backendUrl = "http://localhost:8080"
 
   constructor(private http : HttpClient) { }
 
-  getSuplierPorducts() : Observable<any> {
-    return     this.http.get<any>("http://localhost:8080/supplier", )
+  getSupplierProducts() : Observable<any> {
+    return     this.http.get<any>( this.backendUrl +"/supplier", )
   }
 
-  getSuplierPorductsEscuela() : Observable<any> {
-    return     this.http.get<any>("http://localhost:8080/supplier-escuela")
+  getSupplierProductsEscuela() : Observable<any> {
+    return     this.http.get<any>(this.backendUrl +"/supplier-escuela")
   }
 
 }

@@ -17,7 +17,7 @@ export class SupplierEscuelaComponent {
   
   ngOnInit(): void {
 
-    this.supplierService.getSuplierPorductsEscuela().subscribe(res => {
+    this.supplierService.getSupplierProductsEscuela().subscribe(res => {
       this.products = res;
     })
   }

@@ -4,11 +4,12 @@ import { Product } from '../../Models/Product';
 import { Nutrients } from '../../Models/Nutrients';
 import { Category } from '../../Models/Category';
 import { ProductService } from '../../services/product.service';
+import { AutosizeDirective } from '../../directives/autosize.directive';
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, AutosizeDirective],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })

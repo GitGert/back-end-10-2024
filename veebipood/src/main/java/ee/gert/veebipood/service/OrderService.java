@@ -1,5 +1,6 @@
 package ee.gert.veebipood.service;
 
+import ee.gert.veebipood.cache.ProductCache;
 import ee.gert.veebipood.entity.Order;
 import ee.gert.veebipood.entity.OrderRow;
 import ee.gert.veebipood.entity.Product;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class OrderService {
@@ -32,6 +34,9 @@ public class OrderService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProductCache productCache;
 
     @Value("${everypay-url}")
     String everyPayUrl;
@@ -51,11 +56,13 @@ public class OrderService {
 //        this.productRepository = productRepository;
 //    }
 
-    public Order saveOrder(Order order){
+    public Order saveOrder(Order order) throws ExecutionException {
         order.setCreation(new Date());
         double totalSum =0;
         for(OrderRow orderRow : order.getOrderRows()){
-            Product dbProduct = productRepository.findById(orderRow.getProduct().getId()).orElseThrow();
+            Product dbProduct = productCache.getProduct(orderRow.getProduct().getId());
+
+//            Product dbProduct = productRepository.findById(orderRow.getProduct().getId()).orElseThrow();
             totalSum += dbProduct.getPrice() * orderRow.getPcs();
         }
         order.setTotalSum(totalSum);

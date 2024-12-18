@@ -1,6 +1,5 @@
 package ee.gert.veebipood.security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -9,7 +8,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.User;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,9 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 
@@ -76,7 +72,6 @@ public class JwtFilter extends BasicAuthenticationFilter {
             System.out.println(claims.get("email"));
 
 
-
             //TODO: read the data and create a authentication instance with it
             boolean admin = claims.get("admin").equals("true");
             String email = claims.get("email").toString();
@@ -87,7 +82,6 @@ public class JwtFilter extends BasicAuthenticationFilter {
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("admin");
                 authorities.add(grantedAuthority);
             }
-
 
                                                                             // tokeni seest email                    ja credentials
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, credentials, authorities ); //FL -FirstLast

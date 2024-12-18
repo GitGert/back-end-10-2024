@@ -1,19 +1,19 @@
 <div class="error">{{errorMessage}}</div>
 
-<form #addProductForm="ngForm" (submit)="addProduct(addProductForm)">
+<form #addProductForm="ngForm"  id="form" (submit)="addProduct(addProductForm)">
 
     <label for="">ID</label> <br>
     <input ngModel name="id" type="text"> <br>
     <label for="">Name</label> <br>
-    <input ngModel name="name" > <br>
+    <input ngModel name="name" required> <br>
     <label for="">Price</label> <br>
-    <input ngModel name="price" > <br>
+    <input ngModel name="price" required> <br>
     <label for="">Image</label> <br>
     <input ngModel name="image" > <br>
     <label for="">Active</label> <br>
     <input ngModel name="active" type="checkbox" > <br>
     <label for="">Description</label> <br>
-    <input ngModel name="description" > <br>
+    <textarea autosize ngModel name="description" > </textarea> <br>
     <label for="">Protein</label> <br>
     <input ngModel name="protein" > <br>
     <label for="">Carbohydrate</label> <br>
@@ -24,6 +24,6 @@
     <!-- category should maybe be a dropdown of all exsiting categories unless this will create a new category as well -->
     <input ngModel name="category" > <br>
     <br>
-    <button>Add</button>
+    <button [disabled]="addProductForm.invalid" >Add</button>
 
 </form>
